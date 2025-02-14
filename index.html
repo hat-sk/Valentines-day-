@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffccdc;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            color: #d10050;
+            position: relative;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3em;
+            text-shadow: 2px 2px 10px rgba(255, 0, 102, 0.6);
+        }
+        .quiz-container, .login-container {
+            background: rgba(255, 182, 193, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px pink;
+            display: inline-block;
+        }
+        button {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 0 10px rgba(255, 0, 102, 0.6);
+        }
+        button:hover {
+            background-color: #d10050;
+        }
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            transform: rotate(-45deg);
+            animation: float 4s linear infinite;
+        }
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+        .heart::after {
+            left: 10px;
+            top: 0;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(-45deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <audio id="bg-music" src="background-music.mp3" autoplay loop></audio>
+    <h1>Valentine's Day Quiz</h1>
+    
+    <div class="login-container" id="login-container">
+        <p>Enter your secret love code:</p>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="checkLogin()">Login</button>
+    </div>
+    
+    <div class="quiz-container" id="quiz-container" style="display: none;">
+        <p id="question">Loading...</p>
+        <div id="options"></div>
+    </div>
+    
+    <div class="hearts"></div>
+
+    <script>
+        const correctUsername = "kaleja";
+        const correctPassword = "mera mithu";
+
+        function checkLogin() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            if (username === correctUsername && password === correctPassword) {
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("quiz-container").style.display = "block";
+                loadQuestion();
+            } else {
+                alert("Wrong username or password! Try again, my love ❤");
+            }
+        }
+
+        const quizData = [
+            { question: "What do you love about me?", options: ["Your smile", "Your kindness", "Your humor", "Everything"], answer: "Everything" },
+            { question: "What really makes you mad about me?", options: ["Nothing", "Your stubbornness", "Your forgetfulness", "Your pranks"], answer: "Nothing" },
+            { question: "Where did we go for our first date?", options: ["Beach", "Restaurant", "Cinema", "Park"], answer: "Restaurant" },
+            { question: "How much do you love me?", options: ["A little", "A lot", "Beyond measure", "To the moon and back"], answer: "Beyond measure" }
+        ];
+
+        let currentQuestion = 0;
+        function loadQuestion() {
+            document.getElementById("question").innerText = quizData[currentQuestion].question;
+            document.getElementById("options").innerHTML = "";
+            quizData[currentQuestion].options.forEach(option => {
+                let btn = document.createElement("button");
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(option);
+                document.getElementById("options").appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected) {
+            if (selected === quizData[currentQuestion].answer) {
+                let voiceMessage = new SpeechSynthesisUtterance("You are beautiful, Kaleju");
+                speechSynthesis.speak(voiceMessage);
+            }
+            if (currentQuestion + 1 < quizData.length) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                document.getElementById("question").innerText = "Happy Valentine's Day, my love!";
+                document.getElementById("options").innerHTML = "❤❤❤";
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.querySelector(".hearts").appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
