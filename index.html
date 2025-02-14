@@ -110,10 +110,11 @@
         }
 
         const quizData = [
-            { question: "What do you love about me?", options: ["Your smile", "Your kindness", "Your humor", "Everything"], answer: "Everything" },
-            { question: "What really makes you mad about me?", options: ["Nothing", "Your stubbornness", "Your forgetfulness", "Your pranks"], answer: "Nothing" },
-            { question: "Where did we go for our first date?", options: ["Beach", "Restaurant", "Cinema", "Park"], answer: "Restaurant" },
-            { question: "How much do you love me?", options: ["A little", "A lot", "Beyond measure", "To the moon and back"], answer: "Beyond measure" }
+            { question: "When do you love me the most?", options: ["When I hold your hands", "When I kiss your neck", "When I grab your waist", "When I kiss your cheeks"], answer: "When I kiss your cheeks" },
+            { question: "What do I love about you?", options: ["Your smile", "Your sexy figure", "Your nature", "Your everything"], answer: "Your everything" },
+            { question: "What do I love to wear for you?", options: ["Nothing", "Kurta Saya", "Jeans and shirt", "Only underwear"], answer: "Kurta Saya" },
+            { question: "Would you leave me?", options: ["No", "Never", "Not gonna happen", "Not a chance"], answer: "Never" },
+            { question: "What do you remember of the day when we got engaged?", options: ["Date", "Your dress", "My dress", "My happiness"], answer: "My happiness" }
         ];
 
         let currentQuestion = 0;
@@ -129,10 +130,8 @@
         }
 
         function checkAnswer(selected) {
-            if (selected === quizData[currentQuestion].answer) {
-                let voiceMessage = new SpeechSynthesisUtterance("You are beautiful, Kaleju");
-                speechSynthesis.speak(voiceMessage);
-            }
+            let voiceMessage = new SpeechSynthesisUtterance("You are beautiful, Kaleju");
+            speechSynthesis.speak(voiceMessage);
             if (currentQuestion + 1 < quizData.length) {
                 currentQuestion++;
                 loadQuestion();
@@ -141,16 +140,6 @@
                 document.getElementById("options").innerHTML = "❤❤❤";
             }
         }
-
-        function createHeart() {
-            const heart = document.createElement("div");
-            heart.className = "heart";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
-            document.querySelector(".hearts").appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
-        }
-        setInterval(createHeart, 300);
     </script>
 </body>
 </html>
